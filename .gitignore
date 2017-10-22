@@ -4,6 +4,7 @@ env
 bundle-stats.html
 yarn-debug.log
 npm-debug.log.*
+.rpt2_cache
 
 # Created by https://www.gitignore.io/api/osx,node,linux,windows
 

@@ -1,29 +1,30 @@
 /* eslint-disable flowtype/require-valid-file-annotation, no-console, import/extensions */
-import nodeResolve from 'rollup-plugin-node-resolve';
-import replace from 'rollup-plugin-replace';
-import commonjs from 'rollup-plugin-commonjs';
-import inject from 'rollup-plugin-inject';
-import babel from 'rollup-plugin-babel';
+// import nodeResolve from 'rollup-plugin-node-resolve';
+import replace from "rollup-plugin-replace";
+// import commonjs from 'rollup-plugin-commonjs';
+import inject from "rollup-plugin-inject";
+import typescript from "rollup-plugin-typescript2";
+// import babel from 'rollup-plugin-babel';
 // import json from 'rollup-plugin-json';
-import uglify from 'rollup-plugin-uglify';
-import visualizer from 'rollup-plugin-visualizer';
-import pkg from './package.json';
+import uglify from "rollup-plugin-uglify";
+import visualizer from "rollup-plugin-visualizer";
+import pkg from "./package.json";
 
-const processShim = '\0process-shim';
+const processShim = "\0process-shim";
 
 const prod = process.env.PRODUCTION;
 const esbundle = process.env.ESBUNDLE;
 
 let targets;
 if (prod) {
-  console.log('Creating production UMD bundle...');
-  targets = [{ dest: 'dist/styled-components.min.js', format: 'umd' }];
+  console.log("Creating production UMD bundle...");
+  targets = [{ dest: "dist/redux-api-middleware.min.js", format: "umd" }];
 } else if (esbundle) {
-  console.log('Creating ES modules bundle...');
-  targets = [{ dest: 'dist/styled-components.es.js', format: 'es' }];
+  console.log("Creating ES modules bundle...");
+  targets = [{ dest: "dist/redux-api-middleware.es.js", format: "es" }];
 } else {
-  console.log('Creating development UMD bundle');
-  targets = [{ dest: 'dist/styled-components.js', format: 'umd' }];
+  console.log("Creating development UMD bundle");
+  targets = [{ dest: "dist/redux-api-middleware.js", format: "umd" }];
 }
 
 const plugins = [
@@ -36,46 +37,47 @@ const plugins = [
       return null;
     },
     load(id) {
-      if (id === processShim) return 'export default { argv: [], env: {} }';
+      if (id === processShim) return "export default { argv: [], env: {} }";
       return null;
-    },
+    }
   },
   // json(),
-  nodeResolve(),
-  commonjs({
-    ignoreGlobal: true,
-  }),
+  // nodeResolve(),
+  // commonjs({
+  //   ignoreGlobal: true,
+  // }),
   prod &&
     replace({
-      'process.env.NODE_ENV': JSON.stringify(
-        prod ? 'production' : 'development',
-      ),
+      "process.env.NODE_ENV": JSON.stringify(
+        prod ? "production" : "development"
+      )
     }),
   prod &&
     inject({
-      process: processShim,
+      process: processShim
     }),
-  babel({
-    babelrc: false,
-    presets: [['env', { modules: false, loose: true }], 'react'],
-    plugins: [
-      prod && 'transform-react-remove-prop-types',
-      'external-helpers',
-      'transform-object-rest-spread',
-      'transform-class-properties',
-    ].filter(Boolean),
-  }),
+  typescript()
+  // babel({
+  //   babelrc: false,
+  //   presets: [['env', { modules: false, loose: true }], 'react'],
+  //   plugins: [
+  //     prod && 'transform-react-remove-prop-types',
+  //     'external-helpers',
+  //     'transform-object-rest-spread',
+  //     'transform-class-properties',
+  //   ].filter(Boolean),
+  // }),
 ].filter(Boolean);
 
 if (prod)
-  plugins.push(uglify(), visualizer({ filename: './bundle-stats.html' }));
+  plugins.push(uglify(), visualizer({ filename: "./bundle-stats.html" }));
 
 export default {
-  entry: 'src/index.js',
-  moduleName: 'styled',
-  external: ['react'].concat(esbundle ? Object.keys(pkg.dependencies) : []),
-  exports: 'named',
+  entry: "src/index.ts",
+  moduleName: "redux-api-middleware",
+  external: ["redux"].concat(esbundle ? Object.keys(pkg.dependencies) : []),
+  exports: "named",
   targets,
-  plugins,
-  globals: { react: 'React' },
+  plugins
+  // globals: { react: 'React' },
 };
