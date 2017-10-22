@@ -1,0 +1,61 @@
+{
+  "name": "redux-api-middleware",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Atte Huhtakangas <atte.huhtakangas@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run build:lib && npm run build:dist",
+    "prebuild:lib": "rimraf lib/*",
+    "build:lib": "babel --out-dir lib --ignore \"*.test.js\" src",
+    "prebuild:dist": "rimraf dist/*",
+    "build:dist":
+      "rollup -c && rollup -c --environment ESBUNDLE && rollup -c --environment PRODUCTION",
+    "build:watch": "npm run build:lib -- --watch",
+    "test": "jest",
+    "test:size": "bundlesize",
+    "precommit": "lint-staged",
+    "lint": "eslint *.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-import": "^2.8.0",
+    "husky": "^0.14.3",
+    "jest": "^21.2.1",
+    "lint-staged": "^4.3.0",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.4",
+    "rollup-plugin-inject": "^2.0.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-visualizer": "^0.3.1",
+    "tslint": "^5.8.0",
+    "typescript": "^2.5.3"
+  },
+  "jest": {
+    "clearMocks": true,
+    "roots": ["<rootDir>/src/"]
+  },
+  "lint-staged": {
+    "*.ts": ["prettier --write", "eslint --fix", "git add"]
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/styled-components.min.js",
+      "threshold": "14.5kB"
+    }
+  ]
+}
