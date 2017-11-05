@@ -9,9 +9,28 @@ import {
   CancelToken,
 } from 'axios';
 import { validateAction } from './validators';
-import { APICALL, ApiActionPayload } from './types';
+import { APICALL, ApiActionPayload, TypeDescriptor } from './types';
 
 const { log } = console;
+
+export const getUrl = <State>(
+  payload: ApiActionPayload<State>,
+  state: State,
+): string => {
+  if (!state) throw new Error('State must be passed to getUrl');
+  let url;
+  if (payload.url && typeof payload.url === 'string') {
+    url = payload.url;
+  }
+  if (payload.url && typeof payload.url === 'function') {
+    url = payload.url(state);
+  }
+  if (typeof url !== 'string')
+    throw new TypeError(
+      'payload.url must be a string or a function that returns a string!',
+    );
+  return url;
+};
 
 const apiMiddleware: Middleware = <State>({
   dispatch,
@@ -23,44 +42,43 @@ const apiMiddleware: Middleware = <State>({
       const fsaa: FluxStandardAction<{}, {}> = validateAction(action);
 
       const apiActionPayload = fsaa.payload as ApiActionPayload<State>;
-      let url = undefined;
-      if (apiActionPayload.url && typeof apiActionPayload.url === 'string') {
-        url = apiActionPayload.url;
-      }
-      if (apiActionPayload.url && typeof apiActionPayload.url === 'function') {
-        url = apiActionPayload.url(getState());
-      }
+      const url = getUrl(apiActionPayload, getState());
 
       const config: AxiosRequestConfig = {
         url,
         method: apiActionPayload.method || 'GET',
       };
       log('config', config);
+      log('apiActionPayload', apiActionPayload);
       if (apiActionPayload.startType) {
-        if (typeof apiActionPayload.startType.payload === 'string') {
+        log('had startType');
+        if (typeof apiActionPayload.startType === 'string') {
           dispatch({ type: apiActionPayload.startType });
         } else {
-          let payload;
-          if (typeof apiActionPayload.startType === 'string') {
-            payload = string;
+          if (typeof apiActionPayload.startType === 'object') {
+            dispatch({
+              type: apiActionPayload.startType.type,
+              // TODO handle if these are funcs
+              meta: apiActionPayload.startType.meta,
+              // TODO handle if these are funcs
+              payload: apiActionPayload.startType.payload,
+            });
           }
-          dispatch({
-            type: apiActionPayload.startType.type,
-            // TODO handle if these are funcs
-            meta: apiActionPayload.startType.meta,
-            // TODO handle if these are funcs
-            payload: apiActionPayload.startType.payload,
-          });
         }
       }
       axios(config)
         .then(response => {
           dispatch({
-            type: payload.successType,
+            type: apiActionPayload.successType,
             payload: response.data,
           });
         })
-        .catch(err => {});
+        .catch(err => {
+          dispatch({
+            type: apiActionPayload.errorType,
+            payload: err,
+          });
+        });
       return next(action);
     } else {
       log('was not APICALL');

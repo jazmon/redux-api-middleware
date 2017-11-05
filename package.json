@@ -9,8 +9,7 @@
     "prebuild:lib": "rimraf lib/*",
     "build:lib": "babel --out-dir lib --ignore \"*.test.js\" src",
     "prebuild:dist": "rimraf dist/*",
-    "build:dist":
-      "rollup -c && rollup -c --environment ESBUNDLE && rollup -c --environment PRODUCTION",
+    "build:dist": "rollup -c && rollup -c --environment ESBUNDLE && rollup -c --environment PRODUCTION",
     "build:watch": "npm run build:lib -- --watch",
     "test": "jest",
     "test:size": "bundlesize",
@@ -25,7 +24,9 @@
     "ts-jest": "^21.1.3"
   },
   "devDependencies": {
+    "@types/axios-mock-adapter": "^1.9.0",
     "@types/flux-standard-action": "^0.5.31",
+    "axios-mock-adapter": "^1.9.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-plugin-add-module-exports": "^0.2.1",
@@ -64,12 +65,27 @@
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
-    "roots": ["<rootDir>/src/"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
+    "roots": [
+      "<rootDir>/src/"
+    ]
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "eslint --fix", "git add"],
-    "*.ts": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "bundlesize": [
     {

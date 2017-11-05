@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@types/axios-mock-adapter@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@types/axios-mock-adapter/-/axios-mock-adapter-1.9.0.tgz#d44c413f63a718e7398cc57f41f6eaf8f2530b08"
+  dependencies:
+    axios "^0.16.2"
+
 "@types/flux-standard-action@^0.5.31":
   version "0.5.31"
   resolved "https://registry.yarnpkg.com/@types/flux-standard-action/-/flux-standard-action-0.5.31.tgz#45b4a47a0275b8c46d184296e1f3e5ef53bf78ee"
@@ -211,6 +217,19 @@ aws-sign2@~0.7.0:
 aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
+
+axios-mock-adapter@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/axios-mock-adapter/-/axios-mock-adapter-1.9.0.tgz#0e387666fceaf3f91262109a3956f588bc6af2d1"
+  dependencies:
+    deep-equal "^1.0.1"
+
+axios@^0.16.2:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.16.2.tgz#ba4f92f17167dfbab40983785454b9ac149c3c6d"
+  dependencies:
+    follow-redirects "^1.2.3"
+    is-buffer "^1.1.5"
 
 axios@^0.17.0:
   version "0.17.0"
@@ -1103,6 +1122,10 @@ debug@^3.0.1, debug@^3.1.0:
 decamelize@^1.0.0, decamelize@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
+
+deep-equal@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
 
 deep-extend@~0.4.0:
   version "0.4.2"
