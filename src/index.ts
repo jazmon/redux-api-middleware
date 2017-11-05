@@ -130,29 +130,31 @@ const apiMiddleware: Middleware = <State>({
       action,
       state: getState(),
     };
-    maybeDispatchAction({
-      ...dispatchDefaults,
-      type: apiActionPayload.startType,
-    });
+    maybeDispatchAction(
+      Object.assign({}, dispatchDefaults, { type: apiActionPayload.startType }),
+    );
     // Optimistic response from the api
-    maybeDispatchAction({
-      ...dispatchDefaults,
-      type: apiActionPayload.optimisticType,
-    });
+    maybeDispatchAction(
+      Object.assign({}, dispatchDefaults, {
+        type: apiActionPayload.optimisticType,
+      }),
+    );
     axios(config)
       .then(response => {
-        maybeDispatchAction({
-          ...dispatchDefaults,
-          type: apiActionPayload.successType,
-          payloadOverride: response.data,
-        });
+        maybeDispatchAction(
+          Object.assign({}, dispatchDefaults, {
+            type: apiActionPayload.successType,
+            payloadOverride: response.data,
+          }),
+        );
       })
       .catch(err => {
-        maybeDispatchAction({
-          ...dispatchDefaults,
-          type: apiActionPayload.errorType,
-          payloadOverride: err,
-        });
+        maybeDispatchAction(
+          Object.assign({}, dispatchDefaults, {
+            type: apiActionPayload.errorType,
+            payloadOverride: err,
+          }),
+        );
       });
     return next(action);
   };
