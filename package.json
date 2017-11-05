@@ -9,7 +9,8 @@
     "prebuild:lib": "rimraf lib/*",
     "build:lib": "babel --out-dir lib --ignore \"*.test.js\" src",
     "prebuild:dist": "rimraf dist/*",
-    "build:dist": "rollup -c && rollup -c --environment ESBUNDLE && rollup -c --environment PRODUCTION",
+    "build:dist":
+      "rollup -c && rollup -c --environment ESBUNDLE && rollup -c --environment PRODUCTION",
     "build:watch": "npm run build:lib -- --watch",
     "test": "jest",
     "test:size": "bundlesize",
@@ -64,28 +65,14 @@
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
+    "mapCoverage": true,
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ],
-    "roots": [
-      "<rootDir>/src/"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
+    "roots": ["<rootDir>/src/"]
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.js": ["prettier --write", "eslint --fix", "git add"],
+    "*.ts": ["prettier --write", "git add"]
   },
   "bundlesize": [
     {
