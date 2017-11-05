@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`invalid payload should throw if no payload property 1`] = `"The 'payload' property was invalid!"`;
+
+exports[`invalid payload should throw if the action is not FSAA 1`] = `"The supplied action was invalid!"`;

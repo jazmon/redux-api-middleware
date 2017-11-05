@@ -147,7 +147,7 @@ describe('invalid payload', () => {
     const action = { type: APICALL };
     const testError = () => invoke(action);
 
-    expect(testError).toThrow(InvalidRSAAError);
+    expect(testError).toThrowErrorMatchingSnapshot();
   });
 
   it('should throw if the action is not FSAA', () => {
@@ -155,6 +155,6 @@ describe('invalid payload', () => {
     const action = { type: APICALL, foo: 'bar' };
     const testError = () => invoke(action);
 
-    expect(testError).toThrow(InvalidRSAAError);
+    expect(testError).toThrowErrorMatchingSnapshot();
   });
 });
